@@ -6,8 +6,8 @@ with tb_level as (
     
     from tb_lobby_stats_player
 
-    where dtCreatedAt < {date}
-    and dtCreatedAt >= date({date},'-30 days')
+    where dtCreatedAt < '{date}'
+    and dtCreatedAt >= date('{date}','-30 days')
 ), 
 
 tb_level_final as (
@@ -18,10 +18,11 @@ tb_level_final as (
 
 tb_gameplay_stats as (  
     select
+        '{date}' as dtRef,
         idPlayer,
         count (distinct idLobbyGame) as qtPartidas,
         count (distinct date(dtCreatedAt)) as qtDias,
-        cast(min (julianday({date}) - julianday(dtCreatedAt)) as int) as qtRecencia,
+        cast(min (julianday('{date}') - julianday(dtCreatedAt)) as int) as qtRecencia,
         avg(flWinner) as WinRate,
         cast(count (distinct case when descMapName = 'de_mirage' then idLobbyGame end) as FLOAT) / count (distinct idLobbyGame) as propMirage,
         cast(count (distinct case when descMapName = 'de_nuke' then idLobbyGame end) as FLOAT) / count (distinct idLobbyGame) as propNuke,
@@ -73,8 +74,8 @@ tb_gameplay_stats as (
         avg(qtHitRightLeg) as avgHitRightLeg
 
     from tb_lobby_stats_player
-    where dtCreatedAt < {date}
-    and dtCreatedAt >= date({date},'-30 days')
+    where dtCreatedAt < '{date}'
+    and dtCreatedAt >= date('{date}','-30 days')
 
     group by idPlayer
 )
