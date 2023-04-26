@@ -44,4 +44,4 @@ for feature in fs_name:
 
     for date in date_range(dt_start, dt_stop):
         query_exec = query_structure.format(date=date)
-        pd.read_sql(query_exec, database_origin).to_sql(feature, database_target, if_exists='append')
+        pd.read_sql(query_exec, database_origin).to_sql(feature, database_target, if_exists='append', index=False)

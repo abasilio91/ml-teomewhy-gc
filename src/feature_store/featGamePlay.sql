@@ -12,7 +12,7 @@ with tb_level as (
 
 tb_level_final as (
     select *
-    from tb_level
+    from tb_level   
     where rnPlayer = 1
 ),
 

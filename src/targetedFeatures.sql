@@ -53,7 +53,7 @@ with tb_features as (
         t2.avgHitRightArm,
         t2.avgHitLeftLeg,
         t2.avgHitRightLeg,
-        t2.vlLevel,
+        cast(t2.vlLevel as INT) as vlLevel,
         t3.qtMedalsDist, 
         t3.qtMedal, 
         t3.flAssinante
@@ -80,4 +80,3 @@ from tb_features as t1
 left join featAssinatura as t2
 on t1.idPlayer = t2.idPlayer
 and t1.dtRef = date(t2.dtRef, '-30 days')
-limit 100

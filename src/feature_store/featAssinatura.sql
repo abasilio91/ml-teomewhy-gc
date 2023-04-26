@@ -1,7 +1,6 @@
 with tb_assinatura_history as (
     SELECT
         t1.idPlayer,
-        t2.descMedal,
         count (distinct t1.idMedal) as qtMedalsDist,
         count (t1.idMedal) as qtMedal,
         count (case when t2.descMedal in ('Membro Plus', 'Membro Premium') then t1.idMedal end) as qtAssinaturas,
@@ -13,6 +12,7 @@ with tb_assinatura_history as (
 
     from tb_players_medalha as t1
     left join tb_medalha as t2
+    on t1.idMedal = t2.idMedal
 
     where t1.dtCreatedAt < t1.dtExpiration
     and t1.dtCreatedAt < coalesce(t1.dtRemove, date('now'))
@@ -24,7 +24,8 @@ with tb_assinatura_history as (
 
 tb_assinatura as(
     select
-        t1.*
+        t1.*,
+        t2.descMedal
     
     from tb_players_medalha as t1
     left join tb_medalha as t2
@@ -59,7 +60,7 @@ select
     '{date}' as dtRef,
     1 as flAssinatura,
     t1.idPlayer,
-    t2.descMedal,
+    t1.descMedal,
     t1.qtDiasAssinatura,
     t1.qtDiasExpericao,
     t2.qtAssinaturas,
